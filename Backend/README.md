@@ -176,4 +176,109 @@ curl -X POST http://localhost:PORT/users/login \
 ## Notes
 
 - Both fields are required.
-- The response includes a JWT token
+- The response includes a JWT token for authentication.
+
+---
+
+# User Profile API Documentation
+
+## Endpoint
+
+`GET /users/profile`
+
+## Description
+
+This endpoint returns the authenticated user's profile information. The request must include a valid JWT token in the cookie or Authorization header.
+
+## Authentication
+
+- Requires JWT token (sent as a cookie or in the `Authorization` header).
+
+## Responses
+
+### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "_id": "user_id",
+    "fullname": {
+      "firstname": "John",
+      "lastname": "Doe"
+    },
+    "email": "john.doe@example.com",
+    "scoketId": null
+  }
+  ```
+
+### Authentication Error
+
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+  ```json
+  {
+    "message": "Authentication required"
+  }
+  ```
+
+### Example Request (cURL)
+
+```bash
+curl -X GET http://localhost:PORT/users/profile \
+  -H "Authorization: Bearer <JWT Token>"
+```
+
+## Notes
+
+- Only accessible to authenticated users.
+
+---
+
+# User Logout API Documentation
+
+## Endpoint
+
+`GET /users/logout`
+
+## Description
+
+This endpoint logs out the authenticated user by clearing the JWT token cookie and blacklisting the token.
+
+## Authentication
+
+- Requires JWT token (sent as a cookie or in the `Authorization` header).
+
+## Responses
+
+### Success
+
+- **Status Code:** `200 OK`
+- **Body:**
+  ```json
+  {
+    "message": "Logged Out"
+  }
+  ```
+
+### Authentication Error
+
+- **Status Code:** `401 Unauthorized`
+- **Body:**
+  ```json
+  {
+    "message": "Authentication required"
+  }
+  ```
+
+### Example Request (cURL)
+
+```bash
+curl -X GET http://localhost:PORT/users/logout \
+  -H "Authorization: Bearer <JWT Token>"
+```
+
+## Notes
+
+- Only accessible to authenticated users.
+- The token is blacklisted and cannot be used again.
