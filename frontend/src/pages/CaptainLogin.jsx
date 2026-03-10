@@ -9,7 +9,7 @@ function CaptainLogin() {
 
   const navigate = useNavigate();
   const { captain, setCaptain } = useContext(CaptainDataContext);
-
+  //console.log(captain);
   const submitHandler = async (e) => {
     e.preventDefault();
     const captainData = {
@@ -19,12 +19,21 @@ function CaptainLogin() {
 
     const res = await axios.post(
       `${import.meta.env.VITE_BASE_URL}/captains/login`,
-      captainData
+      captainData,
     );
 
     if (res.status === 200) {
       const data = res.data;
-      setCaptain(data.captain);
+      console.log(data);
+      const newCaptain = {
+        email: data.captain.email,
+        fullname: {
+          firstname: data.captain.fullname.firstname,
+          lastname: data.captain.fullname.lastname,
+        },
+      };
+      setCaptain(newCaptain);
+      //   console.log(captain);
       localStorage.setItem("token", data.token);
       navigate("/captain-home");
     }

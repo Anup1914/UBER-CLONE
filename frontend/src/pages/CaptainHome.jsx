@@ -1,16 +1,19 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useContext } from "react";
 import gsap from "gsap";
 import { Link } from "react-router-dom";
 import CaptainDetails from "../components/CaptainDetails";
 import RidePopUp from "../components/RidePopUp";
 import { useGSAP } from "@gsap/react";
 import ConfirmedRidePopup from "../components/ConfirmedRidePopup";
+import { CaptainDataContext } from "../context/CaptainContext";
 
 function CaptainHome() {
   const [ridePopupPanel, setRidePopupPanel] = useState(true);
   const [confirmRidePopupPanel, setConfirmRidePopupPanel] = useState(false);
   const ridePopupPanelRef = useRef(null);
   const confirmRidePopupPanelRef = useRef(null);
+  const { captain } = useContext(CaptainDataContext);
+  console.log(captain);
 
   useGSAP(
     function () {
@@ -24,7 +27,7 @@ function CaptainHome() {
         });
       }
     },
-    [ridePopupPanel]
+    [ridePopupPanel],
   );
 
   useGSAP(
@@ -39,7 +42,7 @@ function CaptainHome() {
         });
       }
     },
-    [confirmRidePopupPanel]
+    [confirmRidePopupPanel],
   );
 
   return (

@@ -15,6 +15,7 @@ function VehiclePanel(props) {
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
+          props.setVehicleType("car");
         }}
         className="flex w-full border-2 mb-2 active:border-black rounded-xl p-3 items-center justify-between"
       >
@@ -35,11 +36,12 @@ function VehiclePanel(props) {
             Affordable, compact rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">$2.05</h2>
+        <h2 className="text-lg font-semibold">₹{props.fare.car}</h2>
       </div>
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
+          props.setVehicleType("auto");
         }}
         className="flex w-full border-2 mb-2 active:border-black rounded-xl p-3 items-center justify-between"
       >
@@ -60,11 +62,12 @@ function VehiclePanel(props) {
             Affordable Auto rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">$1.45</h2>
+        <h2 className="text-lg font-semibold">₹{props.fare.auto}</h2>
       </div>
       <div
         onClick={() => {
           props.setConfirmRidePanel(true);
+          props.setVehicleType("moto");
         }}
         className="flex w-full border-2 mb-2 active:border-black rounded-xl p-3 items-center justify-between"
       >
@@ -85,7 +88,7 @@ function VehiclePanel(props) {
             Affordable motorcycle rides
           </p>
         </div>
-        <h2 className="text-lg font-semibold">$0.95</h2>
+        <h2 className="text-lg font-semibold">₹{props.fare.moto}</h2>
       </div>
     </div>
   );
