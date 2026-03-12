@@ -19,7 +19,11 @@ const RidePopUp = (props) => {
             src="https://cdn-icons-png.flaticon.com/512/8583/8583437.png"
             alt=""
           ></img>
-          <h2 className="text-lg font-medium">Mukul Yadav</h2>
+          <h2 className="text-lg font-medium">
+            {props.ride?.user.fullname.firstname +
+              " " +
+              props.ride?.user.fullname.firstname}
+          </h2>
         </div>
         <h5 className="text-lg font-semibold">2.2 KM</h5>
       </div>
@@ -29,9 +33,7 @@ const RidePopUp = (props) => {
             <i className="text-lg ri-map-pin-line"></i>
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
-              <p className="text-sm mt-1 text-gray-600">
-                Kankariya Talab, Delhi
-              </p>
+              <p className="text-sm mt-1 text-gray-600">{props.ride?.pickup}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3 border-b-2">
@@ -39,14 +41,14 @@ const RidePopUp = (props) => {
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
               <p className="text-sm mt-1 text-gray-600">
-                Kankariya Talab, Delhi
+                {props.ride?.destination}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3">
             <i className="ri-currency-fill"></i>
             <div>
-              <h3 className="text-lg font-medium">$2.05</h3>
+              <h3 className="text-lg font-medium">${props.ride?.fare}</h3>
               <p className="text-sm mt-1 text-gray-600">Cash</p>
             </div>
           </div>
@@ -56,6 +58,7 @@ const RidePopUp = (props) => {
             onClick={() => {
               props.setRidePopupPanel(false);
               props.setConfirmRidePopupPanel(true);
+              props.confirmRide();
             }}
             className="bg-green-400 text-white font-semibold p-3 px-10 rounded-lg"
           >

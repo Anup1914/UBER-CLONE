@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     select: false, //when we are going to find then password should not go
   },
-  scoketId: {
+  socketId: {
     type: String,
   },
 });

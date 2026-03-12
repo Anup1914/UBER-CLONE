@@ -20,8 +20,10 @@ const UserProtectedWrapper = ({ children }) => {
         },
       })
       .then((res) => {
+        //console.log("User profile response:", res.data);
         if (res.status === 200) {
-          setUser(res.data.user);
+          //console.log("Setting user data:", res.data);
+          setUser(res.data);
           setIsLoading(false);
         }
       })

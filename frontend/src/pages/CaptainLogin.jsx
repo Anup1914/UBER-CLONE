@@ -25,14 +25,7 @@ function CaptainLogin() {
     if (res.status === 200) {
       const data = res.data;
       console.log(data);
-      const newCaptain = {
-        email: data.captain.email,
-        fullname: {
-          firstname: data.captain.fullname.firstname,
-          lastname: data.captain.fullname.lastname,
-        },
-      };
-      setCaptain(newCaptain);
+      setCaptain(data.captain);
       //   console.log(captain);
       localStorage.setItem("token", data.token);
       navigate("/captain-home");

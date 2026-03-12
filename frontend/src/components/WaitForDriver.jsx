@@ -18,9 +18,14 @@ const WaitForDriver = (props) => {
           src="https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos.png"
         ></img>
         <div className="text-right">
-          <h2 className="text-lg font-medium">Anup</h2>
-          <h4 className="text-xl font-semibold -mt-1 -mb-1">HR 36 AB 2430</h4>
+          <h2 className="text-lg font-medium capitalize">
+            {props.ride?.captain.fullname.firstname}
+          </h2>
+          <h4 className="text-xl font-semibold -mt-1 -mb-1">
+            {props.ride?.captain.vehicle.plate}
+          </h4>
           <p className="text-xm text-gray-600">Maruti Suzuki WagonR</p>
+          <h1 className="text-lg font-semibold">{props.ride?.otp}</h1>
         </div>
       </div>
       <div className="flex gap-2 flex-col justify-between items-center">
@@ -29,9 +34,7 @@ const WaitForDriver = (props) => {
             <i className="text-lg ri-map-pin-line"></i>
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
-              <p className="text-sm mt-1 text-gray-600">
-                Kankariya Talab, Delhi
-              </p>
+              <p className="text-sm mt-1 text-gray-600">{props.ride?.pickup}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3 border-b-2">
@@ -39,14 +42,14 @@ const WaitForDriver = (props) => {
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
               <p className="text-sm mt-1 text-gray-600">
-                Kankariya Talab, Delhi
+                {props.ride?.destination}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3">
             <i className="ri-currency-fill"></i>
             <div>
-              <h3 className="text-lg font-medium">$2.05</h3>
+              <h3 className="text-lg font-medium">${props.ride?.fare}</h3>
               <p className="text-sm mt-1 text-gray-600">Cash</p>
             </div>
           </div>

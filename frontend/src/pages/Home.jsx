@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import axios from "axios";
@@ -8,6 +8,10 @@ import VehiclePanel from "../components/VehiclePanel";
 import ConfirmedRide from "../components/ConfirmedRide";
 import LookingForDriver from "../components/LookingForDriver";
 import WaitForDriver from "../components/WaitForDriver";
+import { useContext } from "react";
+import { UserDataContext } from "../context/UserContext";
+import { SocketContext } from "../context/SocketContext";
+import { set } from "mongoose";
 
 function Home() {
   const [pickup, setPickup] = useState("");
@@ -23,12 +27,27 @@ function Home() {
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
   const [vehicleFound, setVehicleFound] = useState(false);
   const [waitingForDriver, setWaitingForDriver] = useState(false);
-
   const [pickupSuggestions, setPickupSuggestions] = useState([]);
   const [destinationSuggestions, setDestinationSuggestions] = useState([]);
   const [activeField, setActiveField] = useState(null);
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
+  const [ride, setRide] = useState(null);
+
+  const { user } = useContext(UserDataContext);
+  const { socket } = useContext(SocketContext);
+
+  useEffect(() => {
+    if (socket.connected && user?._id) {
+      socket.emit("join", { userType: "user", userId: user._id });
+    }
+  }, [user]);
+
+  socket.on("ride-confirmed", (ride) => {
+    setWaitingForDriver(true);
+    setVehicleFound(false);
+    setRide(ride);
+  });
 
   const handlePickupChange = async (e) => {
     setPickup(e.target.value);
@@ -304,7 +323,11 @@ function Home() {
         ref={waitingForDriverRef}
         className="fixed w-full z-10 bottom-0 bg-white px-3 py-6 pt-12"
       >
-        <WaitForDriver setWaitingForDriver={setWaitingForDriver} />
+        <WaitForDriver
+          ride={ride}
+          setVehicleFound={setVehicleFound}
+          setWaitingForDriver={setWaitingForDriver}
+        />
       </div>
     </div>
   );

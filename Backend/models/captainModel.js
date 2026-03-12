@@ -27,7 +27,7 @@ const captainSchema = new mongoose.Schema({
     required: true,
     select: false, //when we are going to find then password should not go
   },
-  scoketId: {
+  socketId: {
     type: String,
   },
   status: {
@@ -58,7 +58,7 @@ const captainSchema = new mongoose.Schema({
     },
   },
   location: {
-    lat: {
+    ltd: {
       type: Number,
     },
     lng: {

@@ -1,9 +1,10 @@
 const axios = require("axios");
+const captainModel = require("../models/captainModel");
 
 module.exports.getAddressCoordinate = async (address) => {
   const apiKey = process.env.GOOGLE_MAPS_API;
   const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-    address
+    address,
   )}&key=${apiKey}`;
 
   try {
@@ -29,7 +30,7 @@ module.exports.getDistanceTime = async (origin, destination) => {
   }
   const apiKey = process.env.GOOGLE_MAPS_API;
   const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(
-    origin
+    origin,
   )}&destinations=${encodeURIComponent(destination)}&key=${apiKey}`;
 
   try {
@@ -54,7 +55,7 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
   }
   const apiKey = process.env.GOOGLE_MAPS_API;
   const url = `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(
-    input
+    input,
   )}&key=${apiKey}`;
 
   try {
@@ -68,4 +69,17 @@ module.exports.getAutoCompleteSuggestions = async (input) => {
     console.error(e);
     throw e;
   }
+};
+
+module.exports.getCaptainsInTheRadius = async (ltd, lng, radius) => {
+  if (!ltd || !lng || !radius) {
+    throw new Error("Location and Radius are required");
+  }
+  const captains = await captainModel.find({
+    location: {
+      $geoWithin: { $centerSphere: [[lng, ltd], radius / 6371] },
+    },
+    status: "active",
+  });
+  return captains;
 };

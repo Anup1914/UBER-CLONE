@@ -18,7 +18,7 @@ router.post(
   body("vehicleType")
     .isIn(["auto", "car", "moto"])
     .withMessage("Invalid destination address"),
-  rideController.createRide
+  rideController.createRide,
 );
 
 router.get(
@@ -32,7 +32,14 @@ router.get(
     .isString()
     .isLength({ min: 3 })
     .withMessage("Invalid destination location"),
-  rideController.getFare
+  rideController.getFare,
+);
+
+router.post(
+  "/confirm",
+  authMiddleware.authCaptain,
+  body("rideId").isMongoId().withMessage("Invalid ride id"),
+  rideController.confirmRide,
 );
 
 module.exports = router;

@@ -40,17 +40,17 @@ async function getFare(pickup, destination) {
     auto: Math.round(
       baseFare.auto +
         (distanceTime.distance.value / 1000) * perKmRate.auto +
-        (distanceTime.duration.value / 60) * perMinutesRate.auto
+        (distanceTime.duration.value / 60) * perMinutesRate.auto,
     ),
     car: Math.round(
       baseFare.car +
         (distanceTime.distance.value / 1000) * perKmRate.car +
-        (distanceTime.duration.value / 60) * perMinutesRate.car
+        (distanceTime.duration.value / 60) * perMinutesRate.car,
     ),
     moto: Math.round(
       baseFare.moto +
         (distanceTime.distance.value / 1000) * perKmRate.moto +
-        (distanceTime.duration.value / 60) * perMinutesRate.moto
+        (distanceTime.duration.value / 60) * perMinutesRate.moto,
     ),
   };
 
@@ -78,6 +78,28 @@ module.exports.createRide = async ({
     otp: getOtp(4),
     fare: fare[vehicleType],
   });
+
+  return ride;
+};
+
+module.exports.confirmRide = async (rideId, captain) => {
+  if (!rideId || !captain) {
+    throw new Error("Ride ID and Captain ID are required");
+  }
+
+  await rideModel.findOneAndUpdate(rideId, {
+    captain: captain._id,
+    status: "accepted",
+  });
+
+  const ride = await rideModel
+    .findOne({ _id: rideId })
+    .populate("user")
+    .populate("captain")
+    .select("+otp");
+  if (!ride) {
+    throw new Error("Ride not found");
+  }
 
   return ride;
 };
