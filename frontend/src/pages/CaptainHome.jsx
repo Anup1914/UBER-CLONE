@@ -7,6 +7,7 @@ import { useGSAP } from "@gsap/react";
 import ConfirmedRidePopup from "../components/ConfirmedRidePopup";
 import { CaptainDataContext } from "../context/CaptainContext";
 import { SocketContext } from "../context/SocketContext";
+import LiveTracking from "../components/LiveTracking";
 
 function CaptainHome() {
   const [ridePopupPanel, setRidePopupPanel] = useState(false);
@@ -102,7 +103,7 @@ function CaptainHome() {
 
   return (
     <div className="h-screen">
-      <div className="fixed p-6 flex items-center justify-between w-screen">
+      <div className="fixed p-6 flex items-center justify-between w-screen z-20">
         <img
           className="w-16"
           src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png"
@@ -116,11 +117,7 @@ function CaptainHome() {
         </Link>
       </div>
       <div className="h-3/5">
-        <img
-          className="h-full w-full object-cover"
-          src="https://simonpan.com/wp-content/themes/sp_portfolio/assets/uber-challenge.jpg"
-          alt=""
-        ></img>
+        <LiveTracking />
       </div>
       <div className="h-2/5 p-6">
         <CaptainDetails />

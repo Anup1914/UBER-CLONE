@@ -12,6 +12,7 @@ import { useContext } from "react";
 import { UserDataContext } from "../context/UserContext";
 import { SocketContext } from "../context/SocketContext";
 import { useNavigate } from "react-router-dom";
+import LiveTracking from "../components/LiveTracking";
 
 function Home() {
   const [pickup, setPickup] = useState("");
@@ -219,11 +220,12 @@ function Home() {
         alt=""
       ></img>
       <div className="h-screen w-screen">
-        <img
+        {/*<img
           className="h-full w-full object-cover"
           src="https://simonpan.com/wp-content/themes/sp_portfolio/assets/uber-challenge.jpg"
           alt=""
-        ></img>
+        ></img>*/}
+        <LiveTracking></LiveTracking>
       </div>
       <div className="flex flex-col h-screen justify-end absolute top-0 w-full">
         <div className="h-[35%] bg-white p-6 relative">

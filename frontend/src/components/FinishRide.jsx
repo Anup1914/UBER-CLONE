@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { endRide } from "../../../Backend/services/rideServices";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
