@@ -11,7 +11,7 @@ import WaitForDriver from "../components/WaitForDriver";
 import { useContext } from "react";
 import { UserDataContext } from "../context/UserContext";
 import { SocketContext } from "../context/SocketContext";
-import { set } from "mongoose";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [pickup, setPickup] = useState("");
@@ -33,6 +33,7 @@ function Home() {
   const [fare, setFare] = useState({});
   const [vehicleType, setVehicleType] = useState(null);
   const [ride, setRide] = useState(null);
+  const navigate = useNavigate();
 
   const { user } = useContext(UserDataContext);
   const { socket } = useContext(SocketContext);
@@ -47,6 +48,11 @@ function Home() {
     setWaitingForDriver(true);
     setVehicleFound(false);
     setRide(ride);
+  });
+
+  socket.on("ride-started", (ride) => {
+    setWaitingForDriver(false);
+    navigate("/riding", { state: { ride } });
   });
 
   const handlePickupChange = async (e) => {

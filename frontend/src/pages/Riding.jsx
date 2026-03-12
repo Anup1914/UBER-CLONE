@@ -1,7 +1,17 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { SocketContext } from "../context/SocketContext";
 
 const Riding = () => {
+  const location = useLocation();
+  const { ride } = location.state || {};
+  const socket = useContext(SocketContext);
+  const navigate = useNavigate();
+
+  socket.on("ride-ended", () => {
+    navigate("/home");
+  });
+
   return (
     <div className="h-screen w-screen">
       <Link
@@ -25,8 +35,12 @@ const Riding = () => {
             src="https://www.pngplay.com/wp-content/uploads/8/Uber-PNG-Photos.png"
           ></img>
           <div className="text-right">
-            <h2 className="text-lg font-medium">Anup</h2>
-            <h4 className="text-xl font-semibold -mt-1 -mb-1">HR 36 AB 2430</h4>
+            <h2 className="text-lg font-medium">
+              {ride?.captain.fullname.firstname}
+            </h2>
+            <h4 className="text-xl font-semibold -mt-1 -mb-1">
+              {ride?.captain.vehicle.plate}
+            </h4>
             <p className="text-xm text-gray-600">Maruti Suzuki WagonR</p>
           </div>
         </div>
@@ -37,14 +51,14 @@ const Riding = () => {
               <div>
                 <h3 className="text-lg font-medium">562/11-A</h3>
                 <p className="text-sm mt-1 text-gray-600">
-                  Kankariya Talab, Delhi
+                  {ride?.destination}
                 </p>
               </div>
             </div>
             <div className="flex items-center gap-5 p-3">
               <i className="ri-currency-fill"></i>
               <div>
-                <h3 className="text-lg font-medium">$2.05</h3>
+                <h3 className="text-lg font-medium">${ride?.fare}</h3>
                 <p className="text-sm mt-1 text-gray-600">Cash</p>
               </div>
             </div>

@@ -1,7 +1,30 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { endRide } from "../../../Backend/services/rideServices";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const FinishRide = (props) => {
+  const navigate = useNavigate();
+
+  async function endRide() {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BASE_URL}/rides/end-ride`,
+      {
+        rideId: props.ride._id,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      },
+    );
+
+    if (response.status == 200) {
+      navigate("/captain-home");
+    }
+  }
+
   return (
     <div>
       <h5
@@ -20,7 +43,9 @@ const FinishRide = (props) => {
             src="https://cdn-icons-png.flaticon.com/512/8583/8583437.png"
             alt=""
           ></img>
-          <h2 className="text-lg font-medium">Mukul Yadav</h2>
+          <h2 className="text-lg font-medium">
+            {props.ride?.user.fullname.firstname}
+          </h2>
         </div>
         <h5 className="text-lg font-semibold">2.2 KM</h5>
       </div>
@@ -30,9 +55,7 @@ const FinishRide = (props) => {
             <i className="text-lg ri-map-pin-line"></i>
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
-              <p className="text-sm mt-1 text-gray-600">
-                Kankariya Talab, Delhi
-              </p>
+              <p className="text-sm mt-1 text-gray-600">{props.ride?.pickup}</p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3 border-b-2">
@@ -40,25 +63,25 @@ const FinishRide = (props) => {
             <div>
               <h3 className="text-lg font-medium">562/11-A</h3>
               <p className="text-sm mt-1 text-gray-600">
-                Kankariya Talab, Delhi
+                {props.ride?.destination}
               </p>
             </div>
           </div>
           <div className="flex items-center gap-5 p-3">
             <i className="ri-currency-fill"></i>
             <div>
-              <h3 className="text-lg font-medium">$2.05</h3>
+              <h3 className="text-lg font-medium">${props.ride?.fare}</h3>
               <p className="text-sm mt-1 text-gray-600">Cash</p>
             </div>
           </div>
         </div>
         <div className="mt-6 w-full">
-          <Link
-            to="/captain-home"
+          <button
+            onClick={endRide}
             className="w-full mt-5 text-lg flex justify-center bg-green-400 text-white font-semibold p-3 rounded-lg"
           >
             Finish Ride
-          </Link>
+          </button>
           <p className="mt-6 text-xs">
             Click on finish ride if you have recieved the payment.
           </p>
